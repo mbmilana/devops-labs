@@ -230,4 +230,69 @@ echo 'echo "Everything is great! The disk only $DISK_USAGE% full. There is plent
 fi
 ```
 
+### task 10
+### Linux Architecture, FHS, and Storage Subsystems
+inspected the connected block devices and checked active mount points using
+```bash
+lsblk
+df -h
+```
+extracted CPU model details and RAM capacity directly from the kernel space:
+```bash
+cd /proc
+cat /proc/cpuinfo | head -5
+```
+simulate manual storage mounting by attaching a temporary `tmpfs` file system directly into the RAM with a strict 50MB limit:
+```bash
+create the target mount point
+```bash
+mkdir ~/mnt_test
+```
+mount a 50MB tmpfs storage
+```bash
+sudo mount -t tmpfs -o size=50M tmpfs ~/mnt_test
+```
+verified the new virtual disk allocation
+```bash
+df -h | grep mnt_test
+```
+clean up the infrastructure by unmounting the resource
+```bash
+cd ..
+sudo umount ~/mnt_test
+```
+
+### task 11
+### Process Anatomy, OS Signals, and Memory Diagnostics
+tracked the lineage of an interactive shell session and identified parent process IDs (PPID):
+```bash
+ps axo pid,ppid,cmd
+```
+simulated hanging process workflows by launching a background execution job:
+```bash
+sleep 1000 &
+```
+investigated graceful process termination using the standard system signal:
+```bash
+pgrep sleep
+kill 3816
+```
+verified process feedback in the primary interactive session terminal:
+```bash
+# Result: System returned "Terminated" (SIGTERM caught successfully)
+```
+simulated forced process destruction by sending an uncatchable signal directly to the kernel:
+```bash
+sleep 1000 &
+pgrep sleep
+kill -9 3887
+```
+verified process state destruction in the primary interactive session terminal:
+```bash
+# Result: System returned "Killed" (SIGKILL enforced by the kernel)
+```
+monitored live operational memory statistics and active buffer cache allocation:
+```bash
+free -m
+```
 
