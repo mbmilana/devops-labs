@@ -296,3 +296,18 @@ monitored live operational memory statistics and active buffer cache allocation:
 free -m
 ```
 
+### task 12
+### Network Stack, Socket Statistics, and Remote HTTP Requests
+inspected operational network interfaces and extracted host IP configurations:
+```bash
+ip a
+```
+investigated active network sockets, listening TCP/UDP ports, and binding processes:
+```bash
+sudo ss -tulpn
+```
+executed a remote non-interactive HTTP network request to capture server metadata headers:
+```bash
+curl -I https://ya.ru
+```
+
