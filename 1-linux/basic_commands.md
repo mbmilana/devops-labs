@@ -114,6 +114,7 @@ create a script file
 ```bash
 echo "#!/bin/bash" > ./devops/1-linux/reportscript.sh
 create and initialized variables `PROJECT="auto_deploy"` and `LOG_FILE="summary.log"`
+```
 ```bash
 echo "PROJECT=\"auto_deploy\"" >> ./devops/1-linux/reportscript.sh
 echo "LOG_FILE=\"summary.log\"" >> ./devops/1-linux/reportscript.sh
@@ -159,7 +160,7 @@ contents of the file `./auto_deploy/summary.log`
 === system report ===
 Script successfully launched by user mbmilana
 DATE: Вс 06 сен 2026 15:02:57 MSK
-``
+```
 
 ### task 8
 create a script file and make it executable
@@ -270,7 +271,7 @@ ps axo pid,ppid,cmd
 ```
 simulated hanging process workflows by launching a background execution job:
 ```bash
-sleep 1000 &
+sleep 1000
 ```
 investigated graceful process termination using the standard system signal:
 ```bash
@@ -283,7 +284,7 @@ verified process feedback in the primary interactive session terminal:
 ```
 simulated forced process destruction by sending an uncatchable signal directly to the kernel:
 ```bash
-sleep 1000 &
+sleep 1000
 pgrep sleep
 kill -9 3887
 ```
