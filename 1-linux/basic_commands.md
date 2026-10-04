@@ -263,7 +263,7 @@ cd ..
 sudo umount ~/mnt_test
 ```
 
-### task 11
+### task 12
 ### Process Anatomy, OS Signals, and Memory Diagnostics
 tracked the lineage of an interactive shell session and identified parent process IDs (PPID):
 ```bash
@@ -297,7 +297,7 @@ monitored live operational memory statistics and active buffer cache allocation:
 free -m
 ```
 
-### task 12
+### task 13
 ### Network Stack, Socket Statistics, and Remote HTTP Requests
 inspected operational network interfaces and extracted host IP configurations:
 ```bash
@@ -310,5 +310,37 @@ sudo ss -tulpn
 executed a remote non-interactive HTTP network request to capture server metadata headers:
 ```bash
 curl -I https://ya.ru
+```
+
+### task 14
+### System Logging, Journald Metrics, and Dynamic Audit
+inspected authentication log assets and tracked historical administrative privilege events:
+```bash
+sudo tail -n 20 /var/log/auth.log
+```
+extracted operational runtime logs from a specific systemd unit manager descriptor:
+```bash
+journalctl -u cron -n 15
+```
+executed time-scoped log slicing with error priority filtering settings:
+```bash
+journalctl -p 3 --since "30 minutes ago"
+```
+
+### task 15
+### Advanced Access Control: SUID, SGID, and Sticky Bit Auditor
+inspected active production system binaries to validate default SUID security configurations:
+```bash
+ls -l /usr/bin/passwd
+```
+audited the global system volatile directory node to verify Sticky Bit implementation:
+```bash
+ls -l /tmp
+```
+provisioned a collaborative project directory workspace secured with active SGID bit inheritance:
+```bash
+mkdir share_project
+chmod 2770 share_project
+ls -l share_project
 ```
 
