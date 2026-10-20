@@ -344,3 +344,105 @@ chmod 2770 share_project
 ls -l share_project
 ```
 
+### task 16
+### Advanced Bash: Command Line Arguments and Positional Parameters
+check the number of passed parameters
+```bash
+if [ "\$#" -ne 2 ]; then
+    echo "Error: Invalid number of arguments."
+    echo "Usage: \$0 <source_directory> <backup_directory>"
+    exit 1
+fi
+```
+assign the passed values to the variables if exactly 2 values are provided
+```bash
+SRC_DIR=\$1
+DEST_DIR=\$2
+
+if [ -d "\$SRC_DIR" ]; then
+    if [ ! -d "\$DEST_DIR" ]; then
+        mkdir -p "\$DEST_DIR"
+    fi
+fi
+```
+run the script and test it test cases: 1) <2 parameters
+```bash
+./day6.sh
+# Result: Error: Invalid number of arguments. Usage: ./day6.sh <source_directory> <backup_directory>
+```
+run the script and test it test cases: 2) by passing valid starage directories
+```bash
+mkdir -p ~/src_test
+./day6.sh ~/src_test ~/backup_test
+# Result: Backup infrastructure successfully prepared.
+```
+
+
+### task 17
+### Advanced Bash: Write a script that will simulate the installation and availability check of an external resource.
+add a command that terminates the script if any command return a non-zero exit status
+```bash
+set -e
+```
+the script should attempt to ping the remote server and store the return code of this command in a variable named `PING_STATUS`
+```bash
+ping -c 2 8.8.8.8
+PING_STATUS=$?
+```
+write an `if/else` statement that checks the `PING_STATUS`
+```bash
+if [ "$PING_STATUS" -ne 0 ]; then
+    echo "CRITICAL: Remote server 8.8.8.8 is unreachable!" > network_errors.log
+    exit 1
+else
+    echo "Network status: OK. Remote server is reachable."
+fi
+```
+testing in two modes: 1) run the script while connected to the internet
+Result:
+```bash
+--- 8.8.8.8 ping statistics ---
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=64 time=22.0 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=64 time=20.3 ms
+
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 20.251/21.119/21.988/0.868 ms
+Network satus: OK. Remote server is reachable.
+PING 192.168.250.250 (192.168.250.250) 56(84) bytes of data.
+```
+2) (to simulate a failure) change the IP address in the code to one that definetely does not exist on your network
+Result:
+```bash
+-- 192.168.250.250 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1035ms
+```
+check the `network_errors.log` file contents
+```bash
+cat networl_errors.log
+```
+Result:
+```bash
+CRITICAL: Remote server 192.168.250.250 is unreachable!
+```
+
+### task 18
+### Advanced Bash: Stream File Parsing
+reads the file containing the list of blocked hosts `blocked_hosts.conf` line by line and counts their total number
+```bash
+COUNT=0
+while read -r host; do
+    COUNT=$((COUNT+1))
+done < blocked_hosts.conf
+```
+displaying messages
+```bash
+echo "DevSecOps Firewall: Deploying block rules for target \$host"
+```
+Results:
+```bash
+DevSecOps Firewall: Deploying block rules for target 10.0.0.5
+DevSecOps Firewall: Deploying block rules for target malware-site.com
+DevSecOps Firewall: Deploying block rules for target 192.168.1.99
+Firewall deployment complete. Total hosts successfully isolated: 3
+```
